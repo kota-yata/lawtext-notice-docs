@@ -265,20 +265,6 @@
       </xs:choice>
     </xs:complexType>
   </xs:element>
-  <!-- Sentence =================================================================== -->
-  <xs:element name="Sentence">
-    <xs:complexType mixed="true">
-      <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element ref="Line"/>
-        <xs:element ref="Ruby"/>
-        <xs:element ref="Sup"/>
-        <xs:element ref="Sub"/>
-      </xs:choice>
-      <xs:attribute name="Num" type="xs:string"/>
-      <xs:attribute name="Delete" type="xs:boolean" default="false"/>
-      <xs:attribute name="Hide" type="xs:boolean" default="false"/>
-    </xs:complexType>
-  </xs:element>
   <!-- Law =================================================================== -->
   <xs:element name="Law">
     <xs:complexType>

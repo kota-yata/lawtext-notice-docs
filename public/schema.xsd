@@ -33,8 +33,8 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
-      <xs:attribute name="Year" type="xs:positiveInteger"/>
-      <xs:attribute name="Num" type="xs:positiveInteger"/>
+      <xs:attribute name="Year" type="xs:string"/>
+      <xs:attribute name="Num" type="xs:string"/>
       <xs:attribute name="NoticeType">
         <xs:simpleType>
           <xs:restriction base="xs:token">
@@ -154,7 +154,7 @@
         <xs:element ref="TitledStructureBody"/>
       </xs:sequence>
       <xs:attribute name="Num" type="xs:string"/>
-      <xs:attribute name="Level" type="xs:positiveInteger"/>
+      <xs:attribute name="Level" type="xs:string"/>
       <xs:attribute name="Delete" type="xs:boolean" default="false"/>
       <xs:attribute name="Hide" type="xs:boolean" default="false"/>
     </xs:complexType>
@@ -171,7 +171,7 @@
   </xs:element>
   <xs:element name="TitledStructureBody">
     <xs:complexType>
-      <xs:choice maxOccurs="unbounded">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="TitledStructure"/>
         <xs:element ref="CaptionedStructure"/>
         <xs:element ref="Structure"/>
@@ -189,7 +189,7 @@
         <xs:element minOccurs="0" ref="SupplNote"/>
       </xs:sequence>
       <xs:attribute name="Num" type="xs:string"/>
-      <xs:attribute name="Level" type="xs:positiveInteger"/>
+      <xs:attribute name="Level" type="xs:string"/>
       <xs:attribute name="Delete" type="xs:boolean" default="false"/>
       <xs:attribute name="Hide" type="xs:boolean" default="false"/>
     </xs:complexType>
@@ -237,7 +237,7 @@
         <xs:element ref="StructureTitle"/>
         <xs:element ref="StructureBody"/>
       </xs:sequence>
-      <xs:attribute name="Level" type="xs:positiveInteger"/>
+      <xs:attribute name="Level" type="xs:string"/>
       <xs:attribute name="Hide" type="xs:boolean" default="false"/>
     </xs:complexType>
   </xs:element>

@@ -3,6 +3,9 @@
 法令は[法令標準XMLスキーマ](https://laws.e-gov.go.jp/docs/law-data-basic/419a603-xml-schema-for-japanese-law/#%E7%AB%A0%E3%81%AA%E3%81%A9)によって定められた文書形式で記述されますが、通知・通達については形式が定められていません。
 このドキュメントでは、さまざまな通知・通達の文書形式に柔軟に対応するために、法令標準XMLスキーマを拡張し、拡張した部分についての定義を記述しています。詳細については拡張XMLスキーマを[ダウンロード](/schema.xsd)してご確認ください。
 
+#### 留意点
+通知・通達に関する要素の属性については、実際は数値が入る値でも文字列型でスキーマ定義を行っています。これは、実際の通知・通達文書では全角数字が入る場合が少なからず存在するためです。
+
 ## `LawAndNotice`およびトップレベルの要素
 ### `LawAndNotice`
 拡張XMLのルート要素です。子要素として法令もしくは通知・通達を持っています。
@@ -19,9 +22,9 @@
 属性:
 - `Era`: `"Meiji"` | `"Taisho"` | `"Showa"` | `"Heisei"` | `"Reiwa"`
   - 通知・通達番号に含まれる元号です。
-- `Year`: `positiveInteger`
+- `Year`: `string`
   - 通知・通達番号に含まれる年号です。
-- `Num`: `positiveInteger`
+- `Num`: `string`
   - 通知・通達番号に含まれる番号です。
 - `NoticeType`: `PublicNotice` | `TsuuchiNotice` | `TsuutatsuNotice`
   - 文書の種別です。
@@ -106,7 +109,7 @@
 属性:
 - `Num`: `string`
   - 構造の番号を指定します。
-- `Level`: `positiveInteger`
+- `Level`: `string`
   - 構造の階層レベルを指定します。
 - `Delete`: `boolean` (デフォルト: `false`)
   - 構造が削除されているかどうかを示します。
@@ -137,7 +140,7 @@
 属性:
 - `Num`: `string`
   - 構造の番号を指定します。
-- `Level`: `positiveInteger`
+- `Level`: `string`
   - 構造の階層レベルを指定します。
 - `Delete`: `boolean` (デフォルト: `false`)
   - 構造が削除されているかどうかを示します。
@@ -166,7 +169,7 @@
 子要素: `<StructureTitle>` | `<StructureBody>`
 
 属性:
-- `Level`: `positiveInteger`
+- `Level`: `string`
   - 構造の階層レベルを指定します。
 - `Hide`: `boolean` (デフォルト: `false`)
   - 構造が非表示であるかどうかを示します。

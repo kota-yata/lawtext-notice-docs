@@ -1,0 +1,202 @@
+法令標準XMLスキーマの告示・通知・通達への拡張
+=============================
+法令は[法令標準XMLスキーマ](https://laws.e-gov.go.jp/docs/law-data-basic/419a603-xml-schema-for-japanese-law/#%E7%AB%A0%E3%81%AA%E3%81%A9)によって定められた文書形式で記述されますが、告示・通知・通達については形式が定められていません。
+このドキュメントでは、さまざまな告示・通知・通達の文書形式に柔軟に対応するために、法令標準XMLスキーマを拡張し、拡張した部分についての定義を記述しています。拡張XMLスキーマは下記のURLからダウンロードすることができます。
+
+## `LawAndNotice`およびトップレベルの要素
+### `LawAndNotice`
+拡張XMLのルート要素です。子要素として法令もしくは通知・通達を持っています。
+
+子要素: `<Law>` | `<Notice>`
+
+---
+
+### `Notice`
+告示・通知・通達を示す要素です。告示・通知・通達の基本情報の属性を持っています。
+
+子要素: `<NoticeNum>` | `<NoticeBody>`
+
+属性:
+- `Era`: `"Meiji"` | `"Taisho"` | `"Showa"` | `"Heisei"` | `"Reiwa"`
+  - 告示・通知・通達番号に含まれる元号です。
+- `Year`: `positiveInteger`
+  - 告示・通知・通達番号に含まれる年号です。
+- `Num`: `positiveInteger`
+  - 告示・通知・通達番号に含まれる番号です。
+- `NoticeType`: `PublicNotice` | `TsuuchiNotice` | `TsuutatsuNotice`
+  - 文書の種別です。
+- `Organization`: `string`
+  - 文書の発行組織です。
+- `Lang`: `"ja"` | `"en"`
+  - 多言語対応を想定した属性です。
+
+---
+
+### `NoticeNum`
+告示・通知・通達番号を表す要素です。
+
+子要素: `string`
+
+---
+
+### `NoticeBody`
+本文の要素。メタデータ・タイトル・本文・付属文書等を含みます。
+
+子要素: `<NoticeMetadata>` | `<NoticeTitle>` | `<NoticeMainProvision>` | `<NoticeSupplProvision>` | `<AppdxTable>` | `<AppdxNote>` | `<AppdxStyle>` | `<Appdx>` | `<AppdxFig>` | `<AppdxFormat>`
+
+属性:  
+- `Subject`: `string`
+  - 件名を表します。法令標準スキーマの`LawBody`に沿って設けられた要素ですが、基本的には`NoticeTitle`に題名が登録されます。
+
+## 書き出しの要素
+### `NoticeTitle`
+文書の題名を表す要素です。
+
+子要素: `<Line>` | `<Ruby>` | `<Sup>` | `<Sub>` | `string`
+
+---
+
+### `NoticeMetadata`
+文書に関するメタデータを記述する要素です。複数の`NoticeMetadataItem`を子要素として持ちます。
+
+子要素: `<NoticeMetadataItem>`
+
+---
+
+### `NoticeMetadataItem`
+文書のメタデータ項目を表す要素です。キーと値のペアでメタデータを記述します。
+
+子要素: `<Line>` | `<Ruby>` | `<Sup>` | `<Sub>` | `string`
+
+属性:
+- `Key`: `string`
+  - メタデータ項目のキー名です。
+
+## 本則、附則
+### `NoticeMainProvision`
+通知・通達の本文を記述する要素です。
+
+子要素: `<TitledStructure>` | `<CaptionedStructure>` | `<Structure>` | `<Sentence>`
+
+属性:
+- `Extract`: `boolean`
+  - 抜粋であることを示す属性です。
+
+---
+
+### `NoticeSupplProvision`
+通知・通達の附則を記述する要素です。
+
+子要素: `<SupplProvisionLabel>` | `<TitledStructure>` | `<CaptionedStructure>` | `<Structure>` | `<SupplProvisionAppdxTable>` | `<SupplProvisionAppdxStyle>` | `<SupplProvisionAppdx>`
+
+属性:
+- `Type`: `"New"` | `"Amend"`
+  - 附則の種類（新規または改正）を示します。
+- `AmendNoticeNum`: `string`
+  - 改正対象の通知番号を記述します。
+- `Extract`: `boolean`
+  - 抜粋であることを示す属性です。
+
+## 文章構造
+### `TitledStructure`
+タイトル付きの構造を表す要素です。
+
+子要素: `<TitledStructureTitle>` | `<TitledStructureBody>`
+
+属性:
+- `Num`: `string`
+  - 構造の番号を指定します。
+- `Level`: `positiveInteger`
+  - 構造の階層レベルを指定します。
+- `Delete`: `boolean` (デフォルト: `false`)
+  - 構造が削除されているかどうかを示します。
+- `Hide`: `boolean` (デフォルト: `false`)
+  - 構造が非表示であるかどうかを示します。
+
+---
+
+### `TitledStructureTitle`
+タイトル付き構造のタイトルを表す要素です。
+
+子要素: `<Line>` | `<Ruby>` | `<Sup>` | `<Sub>` | `string`
+
+---
+
+### `TitledStructureBody`
+タイトル付き構造の本文を表す要素です。
+
+子要素: `<TitledStructure>` | `<CaptionedStructure>` | `<Structure>` | `<Sentence>`
+
+---
+
+### `CaptionedStructure`
+キャプション付きの構造を表す要素です。
+
+子要素: `<CaptionedStructureCaption>` | `<CaptionedStructureTitle>` | `<CaptionedStructureBody>` | `<SupplNote>`
+
+属性:
+- `Num`: `string`
+  - 構造の番号を指定します。
+- `Level`: `positiveInteger`
+  - 構造の階層レベルを指定します。
+- `Delete`: `boolean` (デフォルト: `false`)
+  - 構造が削除されているかどうかを示します。
+- `Hide`: `boolean` (デフォルト: `false`)
+  - 構造が非表示であるかどうかを示します。
+
+---
+
+### `CaptionedStructureTitle`
+キャプション付き構造のタイトルを表す要素です。
+
+子要素: `<Line>` | `<Ruby>` | `<Sup>` | `<Sub>` | `string`
+
+---
+
+### `CaptionedStructureBody`
+キャプション付き構造の本文を表す要素です。
+
+子要素: `<TitledStructure>` | `<CaptionedStructure>` | `<Structure>` | `<Sentence>` | `<TableStruct>` | `<FigStruct>` | `<StyleStruct>` | `<List>` | `<AmendProvision>`
+
+---
+
+### `Structure`
+階層構造を表す要素です。
+
+子要素: `<StructureTitle>` | `<StructureBody>`
+
+属性:
+- `Level`: `positiveInteger`
+  - 構造の階層レベルを指定します。
+- `Hide`: `boolean` (デフォルト: `false`)
+  - 構造が非表示であるかどうかを示します。
+
+---
+
+### `StructureTitle`
+階層構造のタイトルを表す要素です。
+
+子要素: `<Line>` | `<Ruby>` | `<Sup>` | `<Sub>` | `string`
+
+---
+
+### `StructureBody`
+階層構造の本文を表す要素です。
+
+子要素: `<TitledStructure>` | `<CaptionedStructure>` | `<Structure>` | `<Sentence>` | `<TableStruct>` | `<FigStruct>` | `<StyleStruct>` | `<List>`
+
+---
+
+### `Sentence`
+文章を表す要素です。
+
+子要素: `<Line>` | `<Ruby>` | `<Sup>` | `<Sub>` | `string`
+
+属性:
+- `Num`: `string`
+  - 文章の番号を指定します。
+- `Delete`: `boolean` (デフォルト: `false`)
+  - 文章が削除されているかどうかを示します。
+- `Hide`: `boolean` (デフォルト: `false`)
+  - 文章が非表示であるかどうかを示します。
+
